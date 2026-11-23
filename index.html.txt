@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ha">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tsarin Ayyuka Na</title>
+<style>
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+background: #0d0d12;
+color: #f4f4f6;
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: flex-start;
+padding: 24px 14px;
+}
+
+.app-container {
+width: 100%;
+max-width: 460px;
+background: #171720;
+border: 1px solid #2a2a38;
+border-radius: 18px;
+padding: 22px;
+box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+header {
+text-align: center;
+margin-bottom: 18px;
+}
+
+header h1 {
+font-size: 1.5rem;
+color: #f5c542;
+letter-spacing: 0.5px;
+}
+
+header p {
+font-size: 0.85rem;
+color: #a0a0b2;
+margin-top: 4px;
+}
+
+.progress-box {
+background: #111118;
+border-radius: 12px;
+padding: 12px 14px;
+margin-bottom: 18px;
+border: 1px solid #252533;
+}
+
+.progress-info {
+display: flex;
+justify-content: space-between;
+font-size: 0.85rem;
+color: #cfcfdc;
+margin-bottom: 8px;
+}
+
+.progress-bar-bg {
+width: 100%;
+height: 8px;
+background: #272736;
+border-radius: 999px;
+overflow: hidden;
+}
+
+.progress-bar-fill {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #d4a017, #f5c542);
+border-radius: 999px;
+transition: width 0.3s ease;
+}
+
+.input-group {
+display: flex;
+gap: 8px;
+margin-bottom: 16px;
+}
+
+.input-group input {
+flex: 1;
+padding: 12px 14px;
+border-radius: 10px;
+border: 1px solid #2e2e40;
+background: #111118;
+color: #ffffff;
+font-size: 0.95rem;
+outline: none;
+}
+
+.input-group input:focus {
+border-color: #f5c542;
+}
+
+.input-group button {
+padding: 12px 18px;
+border: none;
+border-radius: 10px;
+background: #f5c542;
+color: #111118;
+font-weight: 700;
+font-size: 0.95rem;
+cursor: pointer;
+transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.input-group button:hover {
+background: #ffda6b;
+}
+
+.input-group button:active {
+transform: scale(0.97);
+}
+
+.filters {
+display: flex;
+gap: 8px;
+margin-bottom: 16px;
+}
+
+.filter-btn {
+flex: 1;
+padding: 8px;
+border: 1px solid #2a2a38;
+background: #12121a;
+color: #a8a8ba;
+border-radius: 8px;
+font-size: 0.85rem;
+cursor: pointer;
+transition: all 0.2s ease;
+}
+
+.filter-btn.active {
+background: #f5c542;
+color: #111118;
+border-color: #f5c542;
+font-weight: 600;
+}
+
+ul.task-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 10px;
+min-height: 60px;
+}
+
+.task-item {
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: #1e1e2a;
+padding: 12px 14px;
+border-radius: 12px;
+border: 1px solid #2b2b3b;
+transition: opacity 0.2s ease;
+}
+
+.task-left {
+display: flex;
+align-items: center;
+gap: 10px;
+flex: 1;
+cursor: pointer;
+}
+
+.task-left input[type="checkbox"] {
+width: 18px;
+height: 18px;
+accent-color: #f5c542;
+cursor: pointer;
+}
+
+.task-text {
+font-size: 0.95rem;
+word-break: break-word;
+}
+
+.task-item.done .task-text {
+text-decoration: line-through;
+color: #7c7c92;
+}
+
+.delete-btn {
+background: transparent;
+border: none;
+color: #ff6b6b;
+font-size: 1.1rem;
+cursor: pointer;
+padding: 4px 8px;
+border-radius: 6px;
+}
+
+.delete-btn:hover {
+background: rgba(255, 107, 107, 0.12);
+}
+
+.empty-msg {
+text-align: center;
+color: #7c7c92;
+font-size: 0.9rem;
+padding: 20px 0;
+}
+
+.footer-actions {
+margin-top: 16px;
+display: flex;
+justify-content: flex-end;
+}
+
+.clear-btn {
+background: transparent;
+border: 1px solid #38384a;
+color: #b8b8c8;
+padding: 6px 12px;
+border-radius: 8px;
+font-size: 0.8rem;
+cursor: pointer;
+}
+
+.clear-btn:hover {
+border-color: #ff6b6b;
+color: #ff6b6b;
+}
+</style>
+</head>
+<body>
+<div class="app-container">
+<header>
+<h1>Tsarin Ayyuka Na</h1>
+<p>Shirya ayyukanka na yau cikin tsari</p>
+</header>
+
+<div class="progress-box">
+<div class="progress-info">
+<span id="progress-text">An gama 0 cikin 0</span>
+<span id="progress-percent">0%</span>
+</div>
+<div class="progress-bar-bg">
+<div class="progress-bar-fill" id="progress-fill"></div>
+</div>
+</div>
+
+<div class="input-group">
+<input type="text" id="task-input" placeholder="Rubuta sabon aiki..." />
+<button id="add-btn">Ƙara</button>
+</div>
+
+<div class="filters">
+<button class="filter-btn active" data-filter="all">Duka</button>
+<button class="filter-btn" data-filter="pending">Saura</button>
+<button class="filter-btn" data-filter="done">An Gama</button>
+</div>
+
+<ul class="task-list" id="task-list"></ul>
+
+<div class="footer-actions">
+<button class="clear-btn" id="clear-done-btn">Goge Waɗanda Aka Gama</button>
+</div>
+</div>
+
+<script>
+const taskInput = document.getElementById('task-input');
+const addBtn = document.getElementById('add-btn');
+const taskList = document.getElementById('task-list');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const clearDoneBtn = document.getElementById('clear-done-btn');
+const progressText = document.getElementById('progress-text');
+const progressPercent = document.getElementById('progress-percent');
+const progressFill = document.getElementById('progress-fill');
+
+// Ɗauko ayyukan da aka adana a browser
+let tasks = JSON.parse(localStorage.getItem('tsarin_ayyuka_v1')) || [];
+let currentFilter = 'all';
+
+function saveTasks() {
+localStorage.setItem('tsarin_ayyuka_v1', JSON.stringify(tasks));
+}
+
+function updateProgress() {
+const total = tasks.length;
+const done = tasks.filter(t => t.done).length;
+const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+progressText.textContent = `An gama ${done} cikin ${total}`;
+progressPercent.textContent = `${percent}%`;
+progressFill.style.width = `${percent}%`;
+}
+
+function renderTasks() {
+taskList.innerHTML = '';
+
+const filtered = tasks.filter(task => {
+if (currentFilter === 'pending') return !task.done;
+if (currentFilter === 'done') return task.done;
+return true;
+});
+
+if (filtered.length === 0) {
+const empty = document.createElement('li');
+empty.className = 'empty-msg';
+empty.textContent = 'Babu wani aiki a wannan jerin tukuna.';
+taskList.appendChild(empty);
+updateProgress();
+return;
+}
+
+filtered.forEach(task => {
+const li = document.createElement('li');
+li.className = 'task-item' + (task.done ? ' done' : '');
+
+const left = document.createElement('label');
+left.className = 'task-left';
+
+const checkbox = document.createElement('input');
+checkbox.type = 'checkbox';
+checkbox.checked = task.done;
+checkbox.addEventListener('change', () => toggleTask(task.id));
+
+const span = document.createElement('span');
+span.className = 'task-text';
+span.textContent = task.text;
+
+left.appendChild(checkbox);
+left.appendChild(span);
+
+const delBtn = document.createElement('button');
+delBtn.className = 'delete-btn';
+delBtn.textContent = '✕';
+delBtn.title = 'Goge aiki';
+delBtn.addEventListener('click', () => deleteTask(task.id));
+
+li.appendChild(left);
+li.appendChild(delBtn);
+taskList.appendChild(li);
+});
+
+updateProgress();
+}
+
+function addTask() {
+const text = taskInput.value.trim();
+if (!text) return;
+
+tasks.unshift({
+id: Date.now(),
+text: text,
+done: false
+});
+
+taskInput.value = '';
+saveTasks();
+renderTasks();
+}
+
+function toggleTask(id) {
+tasks = tasks.map(t => (t.id === id ? { ...t, done: !t.done } : t));
+saveTasks();
+renderTasks();
+}
+
+function deleteTask(id) {
+tasks = tasks.filter(t => t.id !== id);
+saveTasks();
+renderTasks();
+}
+
+addBtn.addEventListener('click', addTask);
+taskInput.addEventListener('keypress', e => {
+if (e.key === 'Enter') addTask();
+});
+
+filterBtns.forEach(btn => {
+btn.addEventListener('click', () => {
+filterBtns.forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+currentFilter = btn.dataset.filter;
+renderTasks();
+});
+});
+
+clearDoneBtn.addEventListener('click', () => {
+tasks = tasks.filter(t => !t.done);
+saveTasks();
+renderTasks();
+});
+
+renderTasks();
+</script>
+</body>
+</html>
